@@ -1,6 +1,6 @@
 mutt-ical.py is meant as a simple way to reply to display and reply to ical invitations from mutt.
 
-It was originally authored by Martin Sander, and later modified by Dominic White.
+It was originally authored by Martin Sander, and later modified by Dominic White, and later modified again by Charlie Wolf.
 
 Installing
 ----------
