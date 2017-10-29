@@ -48,15 +48,15 @@ def set_accept_state(attendees, state):
 
 def get_accept_decline():
     while True:
-        sys.stdout.write("\nAccept Invitation? [Y/n/t]")
+        sys.stdout.write("\nAccept Invitation? [y/n/t]")
         ans = sys.stdin.readline()
-        if ans.lower() == 'y\n' or ans == '\n':
+        if ans.lower() == 'y\n':
             return 'ACCEPTED'
         elif ans.lower() == 'n\n':
             return 'DECLINED'
         elif ans.lower() =='t\n':
             return 'TENTATIVE'
-
+    
 def get_answer(invitation):
     # create
     ans = vobject.newFromBehavior('vcalendar')
