@@ -11,13 +11,18 @@ from __future__ import with_statement
 __author__="Martin Sander"
 __license__="MIT"
 
+
+from tzlocal import get_localzone
+import pytz
 import vobject
 import tempfile, time
 import os, sys
 import warnings
-from datetime import datetime
+from datetime import date, datetime
 from subprocess import Popen, PIPE
 from getopt import gnu_getopt as getopt
+
+timezone = get_localzone()
 
 usage="""
 usage:
@@ -136,6 +141,18 @@ def display(ical):
         attendees = ical.vevent.contents['attendee']
     else:
         attendees = ""
+
+    if isinstance(ical.vevent.dtstart.value, date):
+        sys.stdout.write("Start:\t" + ical.vevent.dtstart.value.strftime('%Y-%m-%d') + "\n")
+        sys.stdout.write("End:\t" + ical.vevent.dtend.value.strftime('%Y-%m-%d') + "\n")
+
+    else:
+        sys.stdout.write("Local Start:\t" + ical.vevent.dtstart.value.astimezone(timezone).strftime('%Y-%m-%d %I:%M %p %Z') + "\n")
+        sys.stdout.write("Local End:\t" + ical.vevent.dtend.value.astimezone(timezone).strftime('%Y-%m-%d %I:%M %p %Z') + "\n")
+
+        sys.stdout.write("UTC Start:\t" + ical.vevent.dtstart.value.astimezone(pytz.UTC).strftime('%Y-%m-%d %H:%M %Z') + "\n")
+        sys.stdout.write("UTC End:\t" + ical.vevent.dtend.value.astimezone(pytz.UTC).strftime('%Y-%m-%d %H:%M %Z') + "\n")
+
     sys.stdout.write("From:\t" + sender + "\n")
     sys.stdout.write("Title:\t" + summary + "\n")
     sys.stdout.write("To:\t")
