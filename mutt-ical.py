@@ -166,6 +166,7 @@ def display(ical):
 
 if __name__=="__main__":
     email_address = None
+    email_addresses = []
     accept_decline = 'ACCEPTED'
     opts, args=getopt(sys.argv[1:],"e:aidt")
 
@@ -179,7 +180,7 @@ if __name__=="__main__":
 
     for opt,arg in opts:
         if opt == '-e':
-            email_address = arg
+            email_addresses = arg.split(',')
         if opt == '-i':
             accept_decline = get_accept_decline()
         if opt == '-a':
@@ -201,12 +202,14 @@ if __name__=="__main__":
     flag = 1
     for attendee in attendees:
         if hasattr(attendee,'EMAIL_param'):
-            if attendee.EMAIL_param == email_address:
+            if attendee.EMAIL_param in email_addresses:
                 ans.vevent.attendee_list.append(attendee)
+                email_address = attendee.EMAIL_param
                 flag = 0
         else:
-            if attendee.value.split(':')[1] == email_address:
+            if attendee.value.split(':')[1] in email_addresses:
                 ans.vevent.attendee_list.append(attendee)
+                email_address = attendee.value.split(':')[1]
                 flag = 0
     if flag:
         sys.stderr.write("Seems like you have not been invited to this event!\n")
