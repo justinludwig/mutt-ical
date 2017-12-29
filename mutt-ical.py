@@ -218,7 +218,7 @@ if __name__=="__main__":
     icsfile, tempdir = write_to_tempfile(ans)
 
     mutt_command = get_mutt_command(ans, email_address, accept_decline, icsfile)
-    mailtext = "'%s has %s'" % (email_address, accept_decline.lower())
+    mailtext = "From: %s\n\n%s has %s" % (email_address, email_address, accept_decline.lower())
     execute(mutt_command, mailtext)
 
     os.remove(icsfile)
