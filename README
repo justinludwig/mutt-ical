@@ -26,6 +26,11 @@ OSX Users
     ii) Move the old script /Applications/iCal.app/Contents/Resources/Scripts/Mail.scpt just in case you want to re-enable the functionality.
     iii) Copy your new script into place.
 
+Unusual Mutt commands
+---------------------
+
+If the command `mutt` does not work on your computer, for instance if you only have neomutt installed, you can specify mutt command by adding `-c neomutt` to your mailcap entry
+
 Usage
 -----
 

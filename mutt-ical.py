@@ -23,6 +23,7 @@ from subprocess import Popen, PIPE
 from getopt import gnu_getopt as getopt
 
 timezone = get_localzone()
+mutt="mutt"
 
 usage="""
 usage:
@@ -32,6 +33,7 @@ OPTIONS:
     -a accept
     -d decline
     -t tentatively accept
+    -c mutt_command
     (accept is default, last one wins)
 """ % sys.argv[0]
 
@@ -94,7 +96,7 @@ def get_mutt_command(ical, email_address, accept_decline, icsfile):
     else:
         sender = "NO SENDER"
     summary = ical.vevent.contents['summary'][0].value.encode()
-    command = ["mutt", "-e", "my_hdr From: %s" % email_address, "-a", icsfile,
+    command = [mutt, "-e", "my_hdr From: %s" % email_address, "-a", icsfile,
             "-s", "%s: %s" % (accept_decline, summary), "--", sender]
             #Uncomment the below line, and move it above the -s line to enable the wrapper
             #"-e", 'set sendmail=\'ical_reply_sendmail_wrapper.sh\'',
@@ -168,7 +170,7 @@ if __name__=="__main__":
     email_address = None
     email_addresses = []
     accept_decline = 'ACCEPTED'
-    opts, args=getopt(sys.argv[1:],"e:aidt")
+    opts, args=getopt(sys.argv[1:],"e:aidtc:")
 
     if len(args) < 1:
         sys.stderr.write(usage)
@@ -189,6 +191,8 @@ if __name__=="__main__":
             accept_decline = 'DECLINED'
         if opt == '-t':
             accept_decline = 'TENTATIVE'
+        if opt == '-c':
+            mutt = arg
 
     ans = get_answer(invitation)
 
