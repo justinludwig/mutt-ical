@@ -146,17 +146,8 @@ def display(ical):
     else:
         attendees = ""
 
-    if isinstance(ical.vevent.dtstart.value, date):
-        sys.stdout.write("Start:\t" + ical.vevent.dtstart.value.strftime('%Y-%m-%d') + "\n")
-        sys.stdout.write("End:\t" + ical.vevent.dtend.value.strftime('%Y-%m-%d') + "\n")
-
-    else:
-        sys.stdout.write("Local Start:\t" + ical.vevent.dtstart.value.astimezone(timezone).strftime('%Y-%m-%d %I:%M %p %Z') + "\n")
-        sys.stdout.write("Local End:\t" + ical.vevent.dtend.value.astimezone(timezone).strftime('%Y-%m-%d %I:%M %p %Z') + "\n")
-
-        sys.stdout.write("UTC Start:\t" + ical.vevent.dtstart.value.astimezone(pytz.UTC).strftime('%Y-%m-%d %H:%M %Z') + "\n")
-        sys.stdout.write("UTC End:\t" + ical.vevent.dtend.value.astimezone(pytz.UTC).strftime('%Y-%m-%d %H:%M %Z') + "\n")
-
+    sys.stdout.write("Start:\t" + ical.vevent.dtstart.value.astimezone(timezone).strftime('%Y-%m-%d %I:%M %p %Z') + "\n")
+    sys.stdout.write("End:\t" + ical.vevent.dtend.value.astimezone(timezone).strftime('%Y-%m-%d %I:%M %p %Z') + "\n")
     sys.stdout.write("From:\t" + sender + "\n")
     sys.stdout.write("Title:\t" + summary + "\n")
     sys.stdout.write("To:\t")
