@@ -50,15 +50,17 @@ def set_accept_state(attendees, state):
 
 def get_accept_decline():
     while True:
-        sys.stdout.write("\nAccept Invitation? [y/n/t]")
+        sys.stdout.write("\nAccept Invitation? [y/n/t/q]")
         ans = sys.stdin.readline()
         if ans.lower() == 'y\n':
             return 'ACCEPTED'
         elif ans.lower() == 'n\n':
             return 'DECLINED'
-        elif ans.lower() =='t\n':
+        elif ans.lower() == 't\n':
             return 'TENTATIVE'
-    
+        elif ans.lower() == 'q\n':
+            return ''
+
 def get_answer(invitation):
     # create
     ans = vobject.newFromBehavior('vcalendar')
@@ -169,7 +171,7 @@ def display(ical):
 if __name__=="__main__":
     email_address = None
     email_addresses = []
-    accept_decline = 'ACCEPTED'
+    accept_decline = ''
     opts, args=getopt(sys.argv[1:],"e:aidtc:")
 
     if len(args) < 1:
@@ -193,6 +195,9 @@ if __name__=="__main__":
             accept_decline = 'TENTATIVE'
         if opt == '-c':
             mutt = arg
+
+    if accept_decline == '':
+        sys.exit(0)
 
     ans = get_answer(invitation)
 
