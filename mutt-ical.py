@@ -70,7 +70,7 @@ def get_answer(invitation):
 
     # just copy from invitation
     #for i in ["uid", "summary", "dtstart", "dtend", "organizer"]:
-	# There's a problem serializing TZ info in Python, temp fix
+    # There's a problem serializing TZ info in Python, temp fix
     for i in ["uid", "summary", "organizer"]:
         if invitation.vevent.contents.has_key(i):
             ans.vevent.add( invitation.vevent.contents[i][0] )
@@ -126,7 +126,7 @@ def openics(invitation_file):
                 invitation = vobject.readOne(f, ignoreUnreadable=True)
         except AttributeError:
             invitation = vobject.readOne(f, ignoreUnreadable=True)
-	return invitation
+    return invitation
 
 def display(ical):
     summary = ical.vevent.contents['summary'][0].value.encode()
