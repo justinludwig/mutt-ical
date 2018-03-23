@@ -69,9 +69,7 @@ def get_answer(invitation):
     ans.add('vevent')
 
     # just copy from invitation
-    #for i in ["uid", "summary", "dtstart", "dtend", "organizer"]:
-    # There's a problem serializing TZ info in Python, temp fix
-    for i in ["uid", "summary", "organizer"]:
+    for i in ["uid", "summary", "dtstart", "dtend", "organizer"]:
         if invitation.vevent.contents.has_key(i):
             ans.vevent.add( invitation.vevent.contents[i][0] )
 
