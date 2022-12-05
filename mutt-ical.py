@@ -43,15 +43,15 @@ def set_accept_state(attendees, state):
 
 def get_accept_decline():
     while True:
-        sys.stdout.write("\nAccept Invitation? [Y]es/[n]o/[t]entative/[c]ancel\n")
+        sys.stdout.write("\nAccept Invitation? [y]es/[n]o/[t]entative/[A]bort\n")
         ans = sys.stdin.readline()
-        if ans.lower() == 'y\n' or ans == '\n':
+        if ans.lower() == 'y\n':
             return 'ACCEPTED'
         elif ans.lower() == 'n\n':
             return 'DECLINED'
         elif ans.lower() =='t\n':
             return 'TENTATIVE'
-        elif ans.lower() =='c\n':
+        else:
             print("aborted")
             sys.exit(1)
 
