@@ -28,6 +28,7 @@ OPTIONS:
     -t tentatively accept
     (accept is default, last one wins)
     -D display only
+    -s sendmail executable
 """ % sys.argv[0]
 
 def del_if_present(dic, key):
@@ -144,7 +145,9 @@ def display(ical):
     sys.stdout.write("\n")
     sys.stdout.write(description + "\n")
 
-def sendmail():
+def sendmail(executable):
+    if executable:
+        return executable.split()
     mutt_setting = subprocess.check_output(["mutt", "-Q", "sendmail"])
     return mutt_setting.strip().decode().split("=")[1].replace('"', '').split()
 
@@ -161,7 +164,8 @@ if __name__=="__main__":
     email_address = None
     email_addresses = []
     accept_decline = 'ACCEPTED'
-    opts, args=getopt(sys.argv[1:],"e:aidtD")
+    sendmail_executable = None
+    opts, args=getopt(sys.argv[1:],"e:aidtDs:")
 
     if len(args) < 1:
         sys.stderr.write(usage)
@@ -183,6 +187,8 @@ if __name__=="__main__":
             accept_decline = 'DECLINED'
         if opt == '-t':
             accept_decline = 'TENTATIVE'
+        if opt == '-s':
+            sendmail_executable = arg
 
     ans = get_answer(invitation)
 
@@ -224,4 +230,4 @@ if __name__=="__main__":
             subtype='calendar',
             params={ 'method': 'REPLY' })
 
-    execute(sendmail() + ['--', to], message.as_bytes())
+    execute(sendmail(sendmail_executable) + ['--', to], message.as_bytes())
