@@ -224,7 +224,8 @@ if __name__=="__main__":
     message['From'] = email_address
     message['To'] = to
     message['Subject'] = subject
-    mailtext = '%s has %s' % (email_address, accept_decline.lower())
+    verb = 'is' if accept_decline == 'Tentative' else 'has'
+    mailtext = '%s %s %s' % (email_address, verb, accept_decline.lower())
     message.add_alternative(mailtext, subtype='plain')
     message.add_alternative(ans.serialize(),
             subtype='calendar',
