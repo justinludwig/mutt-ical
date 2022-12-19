@@ -217,14 +217,14 @@ if __name__=="__main__":
 
     summary = ans.vevent.contents['summary'][0].value
     accept_decline = accept_decline.capitalize()
-    subject = "'%s: %s'" % (accept_decline, summary)
+    subject = '%s: %s' % (accept_decline, summary)
     to = organizer(ans)
 
     message = EmailMessage()
     message['From'] = email_address
     message['To'] = to
     message['Subject'] = subject
-    mailtext = "'%s has %s'" % (email_address, accept_decline.lower())
+    mailtext = '%s has %s' % (email_address, accept_decline.lower())
     message.add_alternative(mailtext, subtype='plain')
     message.add_alternative(ans.serialize(),
             subtype='calendar',
