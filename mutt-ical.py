@@ -163,9 +163,10 @@ def organizer(ical):
 if __name__=="__main__":
     email_address = None
     email_addresses = []
+    from_name = None
     accept_decline = 'ACCEPTED'
     sendmail_executable = None
-    opts, args=getopt(sys.argv[1:],"e:aidtDs:")
+    opts, args=getopt(sys.argv[1:],"e:f:aidtDs:")
 
     if len(args) < 1:
         sys.stderr.write(usage)
@@ -179,6 +180,8 @@ if __name__=="__main__":
             sys.exit(0)
         if opt == '-e':
             email_addresses = arg.split(',')
+        if opt == '-f':
+            from_name = arg
         if opt == '-i':
             accept_decline = get_accept_decline()
         if opt == '-a':
@@ -221,11 +224,11 @@ if __name__=="__main__":
     to = organizer(ans)
 
     message = EmailMessage()
-    message['From'] = email_address
+    message['From'] = '%s <%s>' % (from_name, email_address) if from_name else email_address
     message['To'] = to
     message['Subject'] = subject
     verb = 'is' if accept_decline == 'Tentative' else 'has'
-    mailtext = '%s %s %s' % (email_address, verb, accept_decline.lower())
+    mailtext = '%s %s %s' % (from_name or email_address, verb, accept_decline.lower())
     message.add_alternative(mailtext, subtype='plain')
     message.add_alternative(ans.serialize(),
             subtype='calendar',
