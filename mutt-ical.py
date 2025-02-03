@@ -70,8 +70,7 @@ def get_answer(invitation):
 
     # new timestamp
     ans.vevent.add('dtstamp')
-    ans.vevent.dtstamp.value = datetime.utcnow().replace(
-            tzinfo = invitation.vevent.dtstamp.value.tzinfo)
+    ans.vevent.dtstamp.value = datetime.now(invitation.vevent.dtstamp.value.tzinfo)
     return ans
 
 def execute(command, mailtext):
